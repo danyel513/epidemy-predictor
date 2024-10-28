@@ -19,6 +19,11 @@ void start_simulation(Person_t* personArray, int n)
 
         // update current status
         updateStatus(personArray, n);
+
+        // for debug purpose only: check that people got infected
+#ifdef DEBUG
+        printPersonArray(personArray, n);
+#endif
     }
 }
 
@@ -39,10 +44,7 @@ int main(int argc, char *argv[])
 
     start_simulation(personArray, n);
 
-// for debug purpose only: check that people got infected
-#ifdef DEBUG
-    printPersonArray(personArray, n);
-#endif
+    writeData(personArray, n, 0);
 
     free(personArray);
     return 0;

@@ -52,16 +52,18 @@ typedef struct Person
 } Person_t;
 
 // serial functions
+void printPersonArray(Person_t* personArray, int numOfPersons); // prints array data
+void movePerson(Person_t *p); // moves a person with one unit
+void computeFutureStatus(Person_t *p, int n, int index); // finds the next status of every person status
+void updateStatus(Person_t *p, int n);
+
 
 // parallel functions
 
 // general use functions
-Person_t* readData(int *n); // reads data from the file -> returns the Person array and the array size (as parameter)
-void printPersonArray(Person_t* personArray, int numOfPersons); // prints array data
 void checkArguments(int argc, char *argv[]); // checks and saves args
 void errorHandler(void); // prints appropiate message for error
-void movePerson(Person_t *p); // moves a person with one unit
-void computeFutureStatus(Person_t *p, int n, int index); // finds the next status of every person status
-void updateStatus(Person_t *p, int n);
+Person_t* readData(int *n); // reads data from the file -> returns the Person array and the array size (as parameter)
+void writeData(Person_t *personArray, int n, unsigned int type);
 
 #endif

@@ -118,7 +118,9 @@ void printPersonArray(Person_t* p, int n)
     printf("\n");
     for (int i = 0; i < n; i++)
     {
-        printf("%ld - x: %d - y: %d - %s - %d - %d \n", p[i].personID, p[i].x, p[i].y, !p[i].currentStatus ? "infected" : "susceptible", p[i].movementDirection, p[i].amplitude);
+        printf("%ld - x: %d - y: %d - %s - %d - %d \n", p[i].personID, p[i].x, p[i].y,
+               !p[i].currentStatus ? "infected" : (p[i].currentStatus == 1 ? "susceptible" : "immune"),
+               p[i].movementDirection, p[i].amplitude);
     }
 }
 
@@ -171,7 +173,7 @@ void movePerson(Person_t *p)
             }
             else
             {
-                p->y -= p->amplitude;
+                p->x -= p->amplitude;
             }
             break;
         default: break;
@@ -204,6 +206,7 @@ void computeFutureStatus(Person_t *p, const int n, const int index)
         {
             p[index].futureStatus = INFECTED;
             p[index].time = INFECTED_DURATION;
+            p[index].infectionCounter ++;
             return;
         }
     }
@@ -220,5 +223,28 @@ void updateStatus(Person_t *p, int n)
     for (int i = 0; i < n; i++)
     {
         p[i].currentStatus = p[i].futureStatus;
+    }
+}
+
+// function: writeData() -> prints the person array in the output file
+void writeData(Person_t *p, int n, unsigned int type)
+{
+    // open the specified file type = 0 => serial, type != 0 => parallel
+    FILE *f;
+    if (type) f = fopen("f_serial_out.txt", "w");
+    else f = fopen("f_parallel_out.txt", "w");
+    if(f == NULL)
+    {
+        errorHandler();
+        return;
+    }
+
+    // print array
+    for(int i=0; i<n; i++)
+    {
+        fprintf(f, "Person %ld has final_x = %d, final_y = %d, final_status = %s and was infected %d times. \n",
+            p[i].personID, p[i].x, p[i].y,
+            !p[i].currentStatus ? "infected" : (p[i].currentStatus == 1 ? "susceptible" : "immune"),
+            p[i].infectionCounter);
     }
 }

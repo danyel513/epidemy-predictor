@@ -1,0 +1,12 @@
+Person 1 has final_x = 2, final_y = 0, final_status = immune and was infected 1 times. 
+Person 2 has final_x = 3, final_y = 3, final_status = susceptible and was infected 1 times. 
+Person 3 has final_x = 3, final_y = 4, final_status = immune and was infected 1 times. 
+Person 4 has final_x = 0, final_y = 2, final_status = immune and was infected 0 times. 
+Person 5 has final_x = 1, final_y = 3, final_status = susceptible and was infected 0 times. 
+Person 6 has final_x = 0, final_y = 4, final_status = immune and was infected 1 times. 
+Person 7 has final_x = 1, final_y = 1, final_status = susceptible and was infected 0 times. 
+Person 8 has final_x = 4, final_y = 3, final_status = susceptible and was infected 0 times. 
+Person 9 has final_x = 3, final_y = 0, final_status = immune and was infected 0 times. 
+Person 10 has final_x = 3, final_y = 6, final_status = immune and was infected 1 times. 
+Person 11 has final_x = 2, final_y = 0, final_status = immune and was infected 0 times. 
+Person 12 has final_x = 3, final_y = 3, final_status = susceptible and was infected 0 times. 
