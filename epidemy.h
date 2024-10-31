@@ -68,6 +68,7 @@ void updateStatus(Person_t *p, int n); // computes the future status of an indiv
 
 // parallel functions
 void *movePersonsParallel(void *rank); // moves only an amount of persons
+void *changeStatusParallel(void *rank); // changes the status of the persons
 
 // general use functions
 void checkArguments(int argc, char *argv[]); // checks and saves args

@@ -31,7 +31,7 @@ void start_simulation(Person_t *p, int n)
     for (int thread = 0; thread < THREAD_NUMBER; thread++)
     {
         tid[thread] = thread;
-        pthread_create(&thread_handles[thread], NULL, movePersonsParallel, &tid[thread]);
+        pthread_create(&thread_handles[thread], NULL, changeStatusParallel, &tid[thread]);
     }
 
     // stop the threads

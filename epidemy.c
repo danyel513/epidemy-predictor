@@ -289,3 +289,9 @@ void *movePersonsParallel(void *rank)
     pthread_barrier_wait(&movingBarrier); // decrements the barrier counter -> signals that thread finised job
     return NULL;
 }
+
+// function changeStatusParallel() -> identifies the new status of every person (chunk of persons) by every thread
+void *changeStatusParallel(void *rank)
+{
+    return NULL;
+}
