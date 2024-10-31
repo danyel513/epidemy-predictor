@@ -6,17 +6,17 @@ int TOTAL_SIMULATION_TIME; // simulation duration -> 1st argv
 char INPUT_FILE_NAME[100] = ""; // input file name -> 2nd argv
 int THREAD_NUMBER; // number of threads used -> 3rd argv
 
-// function: erroeHandler() -> prints appropiate error message and stops the program
+// function: errorHandler() -> prints appropiate error message and stops the program
 void errorHandler(void)
 {
-    perror(strerror(errno)); // print the right error message having the "errno" cod
+    perror(strerror(errno)); // print the right error message having the "errno" code
     exit(EXIT_FAILURE);
 }
 
 // function: checkArguments() -> checks if arguments respect conditions
-void checkArguments(int argc, char *argv[])
+void checkArguments(const int argc, char *argv[])
 {
-    if (argc != 4) // ./exe TOTAL_SIMULATION_TIME  InputFileName ThreadNumber
+    if (argc != 4) // ./exe TOTAL_SIMULATION_TIME InputFileName ThreadNumber
     {
         printf("Invalid arguments! \n");
         exit(EXIT_FAILURE);
@@ -26,21 +26,21 @@ void checkArguments(int argc, char *argv[])
 
     char *endptr;
 
-    TOTAL_SIMULATION_TIME = (int) strtol(argv[1], &endptr, 10);
+    TOTAL_SIMULATION_TIME = (int) strtol(argv[1], &endptr, 10); // casting to integer
     if (*endptr != '\0' || TOTAL_SIMULATION_TIME <= 0)
     {
         printf("Invalid TOTAL SIMULATION TIME! \n");
         exit(EXIT_FAILURE);
     }
 
-    THREAD_NUMBER = (int) strtol(argv[3], &endptr, 10);
+    THREAD_NUMBER = (int) strtol(argv[3], &endptr, 10); // casting to integer
     if (*endptr != '\0' || THREAD_NUMBER <= 0)
     {
         printf("Invalid THREADS NUMBER! \n");
         exit(EXIT_FAILURE);
     }
 
-    strcpy(INPUT_FILE_NAME, argv[2]);
+    strcpy(INPUT_FILE_NAME, argv[2]); // copy the name
     if(strcmp(INPUT_FILE_NAME, "") == 0)
     {
         printf("Invalid INPUT FILE NAME! \n");
@@ -54,9 +54,9 @@ void checkArguments(int argc, char *argv[])
 }
 
 // function: readData() -> reads and saves the data from the input file
-Person_t* readData(int *n) // n reperesent the size of the array, it needs to be saved in the parameter, initialy it can be 0 or NULL
+Person_t* readData(int *n) // n reperesents the size of the array, it needs to be saved in the parameter, initialy it can be 0 or NULL
 {
-    // open file
+    // open file - reading only
     FILE *inputFile = fopen(INPUT_FILE_NAME, "r");
     if (inputFile == NULL) errorHandler();
 
@@ -78,7 +78,7 @@ Person_t* readData(int *n) // n reperesent the size of the array, it needs to be
         exit(EXIT_FAILURE);
     }
 
-    for(int i=0; i< (*n); i++)
+    for(int i = 0; i < (*n); i++)
     {
         int aux1, aux2; // used it for the enum content
 
@@ -98,7 +98,7 @@ Person_t* readData(int *n) // n reperesent the size of the array, it needs to be
         if((p[i].movementDirection == 0 || p[i].movementDirection == 1 ) && p[i].amplitude > MAX_Y_COORD) p[i].amplitude = MAX_Y_COORD;
         if((p[i].movementDirection == 2 || p[i].movementDirection == 3 ) && p[i].amplitude > MAX_X_COORD) p[i].amplitude = MAX_X_COORD;
 
-        // setting the decrementing variable
+        // setting the decrementing variable -> duration
         p[i].time = p[i].currentStatus ? SUSCEPTIBLE_DURATION : INFECTED_DURATION;
     }
 
@@ -112,7 +112,7 @@ Person_t* readData(int *n) // n reperesent the size of the array, it needs to be
     return p;
 }
 
-// function: printPersonArray() -> checks the read data integrity
+// function: printPersonArray() -> prints the array of Person_t
 void printPersonArray(Person_t* p, int n)
 {
     printf("\n");
@@ -247,4 +247,31 @@ void writeData(Person_t *p, int n, unsigned int type)
             !p[i].currentStatus ? "infected" : (p[i].currentStatus == 1 ? "susceptible" : "immune"),
             p[i].infectionCounter);
     }
+}
+
+// function: printStats() -> prints the measurements obtained in the output file
+void printStats(double time, int nrPers) // uses the global TOTAL_SIMULATION_TIME, THREAD_COUNT
+{
+    FILE *f;
+    if(THREAD_NUMBER == 1) // choose the right file to print the stats
+    {
+        f = fopen("performance_serial.txt", "a");
+    }
+    else
+    {
+        f = fopen("performance_parallel.txt", "a");
+    }
+
+    if(f == NULL)
+    {
+        errorHandler();
+        return;
+    }
+
+    fprintf(f, "-----------/------------ \n");
+    fprintf(f, "Total time: %f seconds\n", time);
+    fprintf(f, "Total number of persons: %d\n", nrPers);
+    fprintf(f, "Total time of simulation: %d \n", TOTAL_SIMULATION_TIME);
+    fprintf(f, "Total number of threads: %d \n", THREAD_NUMBER);
+    fprintf(f, "-----------/------------ \n\n");
 }
