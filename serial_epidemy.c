@@ -3,7 +3,8 @@
 // starting simultation
 void start_simulation(Person_t* personArray, int n)
 {
-    while(TOTAL_SIMULATION_TIME--)
+    int simulation_time = TOTAL_SIMULATION_TIME;
+    while(simulation_time--)
     {
         // moving people around
         for(int i=0; i<n; i++)
@@ -37,12 +38,38 @@ int main(int argc, char *argv[])
     int n;
     personArray = readData(&n);
 
+    // set thread number to 1 - serial
+    THREAD_NUMBER = 1;
+
 // for debug purpose only: print the data read from file - check for
 #ifdef DEBUG
+
     printPersonArray(personArray, n);
+
+#endif
+
+// measure the runtime of the serial algorithm
+#ifdef SERIAL_MEASUREMENTS
+
+    struct timespec start, finish;
+    double elapsed;
+
+    clock_gettime(CLOCK_MONOTONIC, &start);
+
 #endif
 
     start_simulation(personArray, n);
+
+#ifdef SERIAL_MEASUREMENTS
+
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+
+    elapsed = (double) (finish.tv_sec - start.tv_sec);
+    elapsed += (double) (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+
+    printStats(elapsed, n);
+
+#endif
 
     writeData(personArray, n, 0);
 

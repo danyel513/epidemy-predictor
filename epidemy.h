@@ -2,17 +2,21 @@
 #define EPIDEMY_H
 
 // defined debug purpose variables
-#define DEBUG
+// #define DEBUG
+
+// defined measurements of speedup variable
+ #define SERIAL_MEASUREMENTS
 
 // used libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <time.h>
 
 // predefined data
 #define INFECTED_DURATION 14 // duration of the sickness
-#define IMMUNE_DURATION 30 // after this the persone can get infected again
+#define IMMUNE_DURATION 30 // after this the person can get infected again
 #define SUSCEPTIBLE_DURATION 0 // signals that a person is predisposed to get infected
 
 // variable data
@@ -55,15 +59,16 @@ typedef struct Person
 void printPersonArray(Person_t* personArray, int numOfPersons); // prints array data
 void movePerson(Person_t *p); // moves a person with one unit
 void computeFutureStatus(Person_t *p, int n, int index); // finds the next status of every person status
-void updateStatus(Person_t *p, int n);
-
+void updateStatus(Person_t *p, int n); // computes the future status of an individ to the curent status
 
 // parallel functions
+
 
 // general use functions
 void checkArguments(int argc, char *argv[]); // checks and saves args
 void errorHandler(void); // prints appropiate message for error
 Person_t* readData(int *n); // reads data from the file -> returns the Person array and the array size (as parameter)
-void writeData(Person_t *personArray, int n, unsigned int type);
+void writeData(Person_t *personArray, int n, unsigned int type); // prints data in the output file
+void printStats(double time, int nrPers); // prints in the file the stats obtain by making measurements
 
 #endif
