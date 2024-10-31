@@ -275,3 +275,17 @@ void printStats(double time, int nrPers) // uses the global TOTAL_SIMULATION_TIM
     fprintf(f, "Total number of threads: %d \n", THREAD_NUMBER);
     fprintf(f, "-----------/------------ \n\n");
 }
+
+// function: movePersonsParallel() -> given as argument to a thread creator (moves an amount of mersons)
+void *movePersonsParallel(void *rank)
+{
+    const int my_rank = *(int *)rank;
+    const int my_first_index = my_rank * (numberOfPersons / THREAD_NUMBER);
+    const int my_last_index = (my_rank + 1) * (numberOfPersons / THREAD_NUMBER) - 1; // memory partitioning among threads
+
+    for(int i = my_first_index; i <= my_last_index; i++)
+        movePerson(&persons[i]);
+
+    pthread_barrier_wait(&movingBarrier); // decrements the barrier counter -> signals that thread finised job
+    return NULL;
+}

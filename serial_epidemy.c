@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     int n;
     personArray = readData(&n);
 
-    // set thread number to 1 - serial
+    // set thread number to 1 - serial (overload the value sent as parameter)
     THREAD_NUMBER = 1;
 
 // for debug purpose only: print the data read from file - check for

@@ -13,6 +13,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <pthread.h>
 
 // predefined data
 #define INFECTED_DURATION 14 // duration of the sickness
@@ -24,6 +25,8 @@ extern int MAX_X_COORD, MAX_Y_COORD; // maximal coordinates given on the first r
 extern int TOTAL_SIMULATION_TIME; // simulation duration -> 1st argv
 extern char INPUT_FILE_NAME[100]; // input file name -> 2nd argv
 extern int THREAD_NUMBER; // number of threads used -> 3rd argv
+extern int numberOfPersons; // amount of Person_t elements in array
+extern pthread_barrier_t movingBarrier; // define a barier that syncs the threads after moving the persons
 
 // define STATUS enum type
 typedef enum Status
@@ -55,6 +58,8 @@ typedef struct Person
     int time; // decremented every time the status does not change from imune or infected
 } Person_t;
 
+extern Person_t *persons; // the array of persons
+
 // serial functions
 void printPersonArray(Person_t* personArray, int numOfPersons); // prints array data
 void movePerson(Person_t *p); // moves a person with one unit
@@ -62,7 +67,7 @@ void computeFutureStatus(Person_t *p, int n, int index); // finds the next statu
 void updateStatus(Person_t *p, int n); // computes the future status of an individ to the curent status
 
 // parallel functions
-
+void *movePersonsParallel(void *rank); // moves only an amount of persons
 
 // general use functions
 void checkArguments(int argc, char *argv[]); // checks and saves args

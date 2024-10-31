@@ -1,6 +1,4 @@
-
-
------------/------------ 
+-----------/------------
 Total time: 7.458844 seconds
 Total number of persons: 10000
 Total time of simulation: 50 
