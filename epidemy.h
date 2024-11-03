@@ -5,7 +5,7 @@
 // #define DEBUG
 
 // defined measurements of speedup variable
-// #define SERIAL_MEASUREMENTS
+#define SERIAL_MEASUREMENTS
 #define PARALLEL_MEASUREMENTS
 
 // used libraries
