@@ -20,7 +20,7 @@ void start_parallel_simulation(void)
         for (int thread = 0; thread < THREAD_NUMBER; thread++)
         {
             tid[thread] = thread;
-            pthread_create(&thread_handles[thread], NULL, threadTask, &tid[thread]);
+            pthread_create(&thread_handles[thread], NULL, processPeopleActions, &tid[thread]);
         }
 
         // stop the threads
