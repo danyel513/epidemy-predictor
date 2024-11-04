@@ -129,5 +129,5 @@ Total time: 256.903321 seconds
 Total number of persons: 50000
 Total time of simulation: 500 
 Total number of threads: 1 
------------/------------ 
+-----------/------------
 
