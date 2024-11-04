@@ -1,7 +1,7 @@
 #include "epidemy.h"
 
 // starting simultation
-void start_simulation(Person_t* personArray, int n)
+void start_serial_simulation(Person_t* personArray, int n)
 {
     int simulation_time = TOTAL_SIMULATION_TIME;
     while(simulation_time--)
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     int n;
     personArray = readData(&n);
 
-    // set thread number to 1 - serial
+    // set thread number to 1 - serial (overload the value sent as parameter)
     THREAD_NUMBER = 1;
 
 // for debug purpose only: print the data read from file - check for
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
 #endif
 
-    start_simulation(personArray, n);
+    start_serial_simulation(personArray, n);
 
 #ifdef SERIAL_MEASUREMENTS
 

@@ -5,7 +5,8 @@
 // #define DEBUG
 
 // defined measurements of speedup variable
- #define SERIAL_MEASUREMENTS
+#define SERIAL_MEASUREMENTS
+#define PARALLEL_MEASUREMENTS
 
 // used libraries
 #include <stdio.h>
@@ -13,6 +14,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <pthread.h>
 
 // predefined data
 #define INFECTED_DURATION 14 // duration of the sickness
@@ -24,6 +26,8 @@ extern int MAX_X_COORD, MAX_Y_COORD; // maximal coordinates given on the first r
 extern int TOTAL_SIMULATION_TIME; // simulation duration -> 1st argv
 extern char INPUT_FILE_NAME[100]; // input file name -> 2nd argv
 extern int THREAD_NUMBER; // number of threads used -> 3rd argv
+extern pthread_barrier_t movingBarrier; // define a barier that syncs the threads after moving the persons
+extern pthread_barrier_t statusBarrier; // syncs the threads after changing status
 
 // define STATUS enum type
 typedef enum Status
@@ -47,13 +51,18 @@ typedef struct Person
 {
     long personID; // identification
     int x, y; // initial coordinates ---> 0 < x,y < maxX,maxY
-    Status_t currentStatus; //  = initial health status -> can be 0 or 1
+    Status_t currentStatus; //  = initial health status -> can be 0 or 1 (infected or susceptible)
     Status_t futureStatus; // health status after epidemy "step"
     Direction_t movementDirection; // movement pattern
     int amplitude; // movement steps -> smaller than the size of the area
     int infectionCounter; // how many times the person got infected over the simulation
     int time; // decremented every time the status does not change from imune or infected
 } Person_t;
+
+// define the global variable used by the parallel version - must be global in order to be used by the threads
+// observation: another solution would be to send them as params and pack them in a structure.
+extern Person_t *personsArr;
+extern int numberOfPersons;
 
 // serial functions
 void printPersonArray(Person_t* personArray, int numOfPersons); // prints array data
@@ -62,7 +71,7 @@ void computeFutureStatus(Person_t *p, int n, int index); // finds the next statu
 void updateStatus(Person_t *p, int n); // computes the future status of an individ to the curent status
 
 // parallel functions
-
+void *threadTask(void* rank); // argument function that manages the thread work split
 
 // general use functions
 void checkArguments(int argc, char *argv[]); // checks and saves args

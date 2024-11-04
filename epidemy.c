@@ -6,6 +6,13 @@ int TOTAL_SIMULATION_TIME; // simulation duration -> 1st argv
 char INPUT_FILE_NAME[100] = ""; // input file name -> 2nd argv
 int THREAD_NUMBER; // number of threads used -> 3rd argv
 
+// importing the extern variables used in the parallel version => barriers
+pthread_barrier_t movingBarrier, statusBarrier;
+
+// declare the array of Person_t
+Person_t *personsArr;
+int numberOfPersons;
+
 // function: errorHandler() -> prints appropiate error message and stops the program
 void errorHandler(void)
 {
@@ -231,7 +238,7 @@ void writeData(Person_t *p, int n, unsigned int type)
 {
     // open the specified file type = 0 => serial, type != 0 => parallel
     FILE *f;
-    if (type) f = fopen("f_serial_out.txt", "w");
+    if (!type) f = fopen("f_serial_out.txt", "w");
     else f = fopen("f_parallel_out.txt", "w");
     if(f == NULL)
     {
@@ -274,4 +281,43 @@ void printStats(double time, int nrPers) // uses the global TOTAL_SIMULATION_TIM
     fprintf(f, "Total time of simulation: %d \n", TOTAL_SIMULATION_TIME);
     fprintf(f, "Total number of threads: %d \n", THREAD_NUMBER);
     fprintf(f, "-----------/------------ \n\n");
+}
+
+// function: threadTask() -> given as argument to a thread creator
+void *threadTask(void *rank)
+{
+    // observation: if the array of Person_t would not be global
+    // a good option would be to pack in a struct the address of the arrat, the number of persons
+    // and the rank of the thread and unpack it in this function
+
+    const int my_rank = *(int *)rank; // using the information sent as argument = rank of every thread
+    const int my_first_index = my_rank * (numberOfPersons / THREAD_NUMBER);
+    int my_last_index = (my_rank + 1) * (numberOfPersons / THREAD_NUMBER) - 1; // memory partitioning among threads
+
+    // check for "rests" of persons (n nod divided by thread number)
+    if (numberOfPersons % THREAD_NUMBER != 0 && my_rank == THREAD_NUMBER - 1)
+    {
+        my_last_index += numberOfPersons % THREAD_NUMBER; // add the surplus of people to the las thread
+    }
+    // first step: all the threads will move persons around
+    for(int i = my_first_index; i <= my_last_index; i++)
+        movePerson(&personsArr[i]);
+
+    // syncronise the threads to wait until all finish moving persons
+    pthread_barrier_wait(&movingBarrier); // decrements the barrier counter -> signals that thread finised job
+
+    // second step: all the threads will compute the status of the people
+    for(int i = my_first_index; i <= my_last_index; i++)
+        computeFutureStatus(personsArr, numberOfPersons, i);
+
+    // sync thread again
+    pthread_barrier_wait(&statusBarrier);
+
+    // third step: all the thread will update the status
+    for(int i = my_first_index; i <= my_last_index; i++)
+    {
+        personsArr[i].currentStatus = personsArr[i].futureStatus;
+    }
+
+    return NULL;
 }

@@ -1,9 +1,133 @@
-
-
 -----------/------------ 
-Total time: 7.458844 seconds
+Total time: 6.870416 seconds
 Total number of persons: 10000
 Total time of simulation: 50 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 11.739932 seconds
+Total number of persons: 20000
+Total time of simulation: 50 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 30.903918 seconds
+Total number of persons: 50000
+Total time of simulation: 50 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 79.019194 seconds
+Total number of persons: 100000
+Total time of simulation: 50 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 15.534006 seconds
+Total number of persons: 10000
+Total time of simulation: 100 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 23.494015 seconds
+Total number of persons: 20000
+Total time of simulation: 100 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 56.049020 seconds
+Total number of persons: 50000
+Total time of simulation: 100 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 146.365199 seconds
+Total number of persons: 100000
+Total time of simulation: 100 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 22.447477 seconds
+Total number of persons: 10000
+Total time of simulation: 150 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 34.049772 seconds
+Total number of persons: 20000
+Total time of simulation: 150 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 81.145693 seconds
+Total number of persons: 50000
+Total time of simulation: 150 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 207.777647 seconds
+Total number of persons: 100000
+Total time of simulation: 150 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 28.639831 seconds
+Total number of persons: 10000
+Total time of simulation: 200 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 44.589550 seconds
+Total number of persons: 20000
+Total time of simulation: 200 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 108.224698 seconds
+Total number of persons: 50000
+Total time of simulation: 200 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 277.800114 seconds
+Total number of persons: 100000
+Total time of simulation: 200 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 71.492741 seconds
+Total number of persons: 10000
+Total time of simulation: 500 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 107.066515 seconds
+Total number of persons: 20000
+Total time of simulation: 500 
+Total number of threads: 1 
+-----------/------------ 
+
+-----------/------------ 
+Total time: 256.903321 seconds
+Total number of persons: 50000
+Total time of simulation: 500 
 Total number of threads: 1 
 -----------/------------ 
 
